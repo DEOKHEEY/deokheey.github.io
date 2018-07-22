@@ -4,6 +4,7 @@ title: Introduction
 date: "2018-07-01"
 excerpt: "SQL 환경 설정 및 개요"
 output: github_document
+comments: true
 ---
 
 # SQL Developer 기본 환경 설정

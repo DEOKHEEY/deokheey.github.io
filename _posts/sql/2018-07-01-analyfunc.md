@@ -7,6 +7,7 @@ toc: true
 tag:
   sql
 output: github_document
+comments: true
 ---
 
 ## 분석함수(Analytic Function)
