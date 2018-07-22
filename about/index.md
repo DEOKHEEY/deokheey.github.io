@@ -6,32 +6,27 @@ date: 2016-03-21
 comments: false
 ---
     
-<center><a href="http://taylantatli.github.io/Moon"><b>Moon</b></a> is a minimal, one column jekyll theme.</center>
+<center> 안녕하세요. <a href="mailto:deokheey@gmail.com"><b>이덕희</b></a> 입니다.<br> 제가 공부한 것들을 정리해서 모와두고 있습니다. 필요하신 분에게 도움이 되었으면 합니다. </center>
 
-## Features
-* Minimal, you can focus on your content
-* Responsive
-* Disqus integration
-* Syntax highlighting
-* Optional post image
-* Social icons
-* Page for sharing projects
-* Optional background image
-* Simple navigation menu
-* MathJax support
+## Contents
+* SQL
+* PL/SQL
+* R
+* Python
 
-## Preview
 
-{% capture images %}
-    https://cloud.githubusercontent.com/assets/754514/14509720/61c61058-01d6-11e6-93ab-0918515ecd56.png
-    https://cloud.githubusercontent.com/assets/754514/14509716/61ac6c8e-01d6-11e6-879f-8308883de790.png
-{% endcapture %}
-{% include gallery images=images caption="Screenshots of Moon Theme" cols=2 %}
 
-See a [live version of Moon](http://taylantatli.github.io/Moon) hosted on GitHub.
 
-## Getting Started
+## Appendix
 
-To learn how to install and use this theme check out the [Setup Guide](http://taylantatli.me/Moon/moon-theme/) for more information.
-      
-[Install Moon](https://github.com/TaylanTatli/Moon){: .btn}
+공부하는데 참고할 수 있는 문제들입니다.
+
+[SQL](https://deokhee.shinyapps.io/problem/) 
+[PL/SQL](https://deokhee.shinyapps.io/problem_plsql) 
+
+hosted on shiny.
+
+## Contact
+
+<a href="mailto:deokheey@gmail.com"><b>[MAIL]</b></a> {:.btn}
+[Instagram](https://instagram.com/deokheey){: .btn}
