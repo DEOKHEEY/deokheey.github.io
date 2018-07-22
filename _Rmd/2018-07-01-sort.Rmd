@@ -1,0 +1,99 @@
+---
+layout: post
+title: "SORT"
+date: "2017-07-21"
+excerpt: "정렬"
+toc: true
+tag:
+  sql
+output: github_document
+
+---
+
+## SORT 정렬
+* 용법: ORDER BY + 정렬 기준 컬럼.
+* ORDER BY 절은 SELECT 문의 마지막절로 써야한다.
+* 기본값은 오름차순 정렬: asc (ascending)
+* 내림차순 정렬: desc (descending)
+* 정렬은 부하가 많으니 되도록이면 지양하자
+
+<br>
+<br>
+
+#### 오름차순 정렬 (기본값)
+
+```sql
+SELECT last_name, salary
+FROM employees
+ORDER BY last_name;
+```
+
+<br>
+
+#### 내림차순 정렬
+```sql
+SELECT last_name, salary
+FROM employees
+ORDER BY last_name desc;
+```
+
+<br>
+
+#### 오름차순/내림차순 정렬
+```sql
+SELECT department_id, salary
+FROM employees
+ORDER BY department_id asc, salary desc;
+```
+
+<br>
+
+#### 표현식 사용 가능
+
+```sql
+SELECT last_name, department_id, salary*12 ann_sal
+FROM employees
+ORDER BY salary*12;
+```
+
+<br>
+
+#### 별칭 사용 가능
+
+```sql
+SELECT last_name, department_id, salary*12 ann_sal
+FROM employees
+ORDER BY ann_sal;
+```
+
+<br>
+
+#### 별칭에 " "가 들어갔을 때, " "표시를 해주어야함
+
+```sql
+SELECT last_name, department_id, salary*12 "ann_sal"
+FROM employees
+ORDER BY "ann_sal";
+```
+
+<br>
+
+#### 위치 표기법(Ex. SELECT절의 3번째 열 기준으로 정렬)
+
+```sql
+SELECT last_name, department_id, salary*12 "ann_sal"
+FROM employees
+ORDER BY 3;
+```
+<br>
+
+#### 위치 표기법 활용
+
+```sql
+SELECT last_name, department_id, salary*12 "ann_sal"
+FROM employees
+ORDER BY 2 asc 3 desc;
+```
+<br>
+
+***

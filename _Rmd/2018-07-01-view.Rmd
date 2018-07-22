@@ -1,0 +1,179 @@
+---
+layout: post
+title: "VIEW"
+date: "2017-07-21"
+excerpt: "데이터를 논리적으로 처리하는 오브젝트"
+toc: true
+tag:
+  sql
+output: github_document
+---
+
+## View
+
+하나 이상의 테이블에 있는 데이터를 논리적으로 처리하는 오브젝트이다. View는 SELECT문만 가지고 있다. View를 수행하면 user_views에서 TEXT에 있는 SELECT 문을 수행하게 된다. 그럼 VIEW가 나오게 된 이유를 아래 예시로 살펴보자.
+
+```sql
+CREATE TABLE dept_20
+AS SELECT * FROM employees
+WHERE department_id = 20;
+
+CREATE TABLE dept_30
+AS SELECT * FROM employees
+WHERE department_id = 30;
+```
+
+읽기 권한만 주면 되는 테이블을 굳이 만들지 않아도 된다. 테이블을 만들면 스토리지 낭비가 되고 데이터 수정 시 유지관리가 불편해 질 수 있다.
+
+```sql
+...
+
+CREATE VIEW dept_v20
+AS SELECT * FROM employees
+WHERE department_id = 20;
+
+CREATE VIEW dept_v30
+AS SELECT * FROM employees
+WHERE department_id = 30;
+
+SELECT * FROM dept_v20;
+SELECT * FROM dept_v30;
+
+GRANT SELECT ON hr.dept_v30 TO 30번 부서 유저;
+SELECT * FROM user_views WHERE view_name = 'DEPT_V30'; --VIEW 확인
+```
+
+VIEW를 사용하여 데이터를 테이블에 있는 것처럼 효과를 줄 수 있다. 그래서 따로 테이블을 만들지 않고 VIEW로 제한해서 접근할 수 있도록 한다. 위의 예와 같이 30번 부서의 사원들은 30번 부서 사원의 정보만 볼 수 있게 권한을 주고 싶을 때 사용한다. 또한, View에서 연결연산자를 사용할 때에는 반드시 별칭을 사용해야 한다.
+
+```sql
+CREATE OR REPLACE VIEW emp_vw --CREATE OR REPLACE 사용(CREATE와 DROP을 동시에 할 수 있음)
+AS 
+SELECT employee_id, last_name || ' ' || first_name name
+FROM employees;
+
+SELECT * FROM emp_vw;
+```
+
+<BR>
+
+***
+
+### 단순 VIEW
+
+Group 함수, Group by절, Join 조건이 없는 View는 단순 View 라고 한다. 단순 View는 실제 데이터를 가지고 있지 않아도 DML 작업을 할 수 있다.
+
+
+```sql
+--sample table 생성
+CREATE TABLE emp_new
+AS SELECT employee_id, last_name, salary, department_id
+FROM employees
+WHERE department_id = 20;
+
+--VIEW 생성
+CREATE VIEW emp_vw
+AS SELECT * FROM emp_new; --단순 vIEW 생성
+
+SELECT * FROM emp_vw;
+DESC emp_vw
+
+--DML 작업
+UPDATE emp_vw
+SET department_id = 200;
+SELECT * FROM emp_vw; 
+SELECT * FROM emp_new; --View를 통해 필드값이 수정됌
+
+ROLLBACK;
+
+DELETE FROM emp_vw;
+SELECT * FROM emp_vw; 
+SELECT * FROM emp_new; --삭제됌
+
+ROLLBACK;
+
+INSERT INTO emp_vw(employee_id, last_name, salary, department_id)
+VALUES(1,'James',1000,10);
+SELECT * FROM emp_vw; 
+SELECT * FROM emp_new; --추가됌
+
+INSERT INTO emp_vw(employee_id, last_name, salary, department_id)
+VALUES(2,NULL,2000,20); --단순 VIEW라도 NOT NULL제약 조건이 적용됌
+
+--VIEW가 ACCESS 하는 TABLE에 제약조건이 걸려 있을 시, INSERT 불가
+
+ROLLBACK;
+
+--DML작업이 안되는 경우
+CREATE OR REPLACE VIEW emp_vw
+AS 
+SELECT employee_id, salary, department_id
+FROM emp_new;
+
+UPDATE emp_vw
+SET last_name = 'james'; --참조하지 않은 컬럼을 실행함
+
+INSERT INTO emp_vw(employee_id, salary, department_id)
+VALUES(3,2000,10);  --참조하고 있는 TABLE에 NOT NULL제약조건이 걸린 컬럼이 있음
+```
+
+<br>
+
+***
+
+#### 제약조건
+
+20번 부서의 사원들만 보는 VIEW를 만들어서 CHECK 조건을 걸었다.
+
+```sql
+CREATE OR REPLACE VIEW empvu20
+AS 
+SELECT *
+FROM employees
+WHERE department_id = 20 --check 제약 조건식
+WITH CHECK OPTION CONSTRAINT empvu20_ck; --조건식은 where절(department_id = 20)
+
+SELECT * FROM empvu20;
+SELECT * FROM user_constraints WHERE table_name = 'EMPVU20';
+
+UPDATE empvu20
+SET department_id = 30
+WHERE employee_id = 201; --제약조건이 걸려 있어서 DML불가
+```
+
+DML을 불허하고 싶을 때 `WITH READ ONLY`
+
+
+```sql
+CREATE OR REPLACE VIEW empvu20
+AS 
+SELECT *
+FROM employees
+WITH READ ONLY; --단순 뷰지만 DML을 불허하고 싶을 때 사용
+```
+
+<BR>
+
+***
+
+### 복합 VIEW
+
+뷰 안에 Group 함수, Group by절, Join 문이 들어 있는 경우 복합 View 라고 한다. 순수 복합 VIEW는 DML작업을 할 수 없다.(PL/SQL TRIGGER를 만들면 사용할 수 있음)
+
+```sql
+Ex. 부서 이름 별로 총액, 평균, 최고, 최저 급여를 구해라.
+
+
+CREATE OR REPLACE VIEW dept_sal_vw
+AS
+SELECT *
+FROM (
+  SELECT d.department_name, e.sum_sal, e.avg_sal, e.max_sal, e.min_sal
+  FROM (
+    SELECT department_id, SUM(salary) sum_sal, TRUNC(AVG(salary),1) avg_sal, MAX(salary) max_sal, MIN(salary) min_sal
+    FROM employees
+    GROUP BY department_id) e,
+  departments d
+WHERE e.department_id = d.department_id);
+```
+
+조인의 일 양을 줄이기 위해 INLINE VIEW를 사용했다.
