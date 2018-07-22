@@ -45,14 +45,10 @@ runtime: shiny
 
 ### 데이터 모델
 
-```{r, echo=FALSE}
-library("DiagrammeR")
-mermaid("
-        graph TB
-        A(클라이언트 머리 속의 모델)-->B(클라이언트의 엔티티 모델)
-        B-->C(엔티 모델의 테이블 모델)
-        C-->D(디스크의 테이블)")
-```
+
+{% highlight text %}
+## Error in loadNamespace(name): there is no package called 'webshot'
+{% endhighlight %}
 
 ***
 
@@ -292,15 +288,10 @@ WHERE rowid = 'AAAEAbAAEAAAADNAAA';
 ## SCAN 방식
 * RDBMS에서 데이터를 처리하는 방법은 __2가지__ 뿐이다.
 
-```{r, echo=FALSE}
-library("DiagrammeR")
-mermaid("
-        graph LR
-        A[데이터 처리 방법]-->B[1. FULL TABLE SCAN]
-        A-->C[2. ROWID SCAN]
-        C-->D[2.1 BY USER ROWID]
-        C-->e[2.2 BY INDEX ROWID]")
-```
+
+{% highlight text %}
+## Error in loadNamespace(name): there is no package called 'webshot'
+{% endhighlight %}
     
 * FULL SCAN: 모든 데이터를 검색한다.
 * ROWID SCAN: ROWID를 기억하지 못하니, ROWID SCAN을 하기 위해 INDEX 사용해서 찾음

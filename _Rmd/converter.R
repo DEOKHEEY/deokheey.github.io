@@ -6,11 +6,11 @@ rmds <- "_Rmd"
 setwd(base)
 
 # 파일 이름 지정
-filename <- "2018-07-21-plsql.Rmd"
+filename <- "2018-07-21-introduction.rmd"
 
 # 폴더 경로들
 figs.path <- "assets/article_images/"
-posts.path <- "_posts/R/"
+posts.path <- "_posts/convert/"
 
 # Rmd -> md 변환
 require(knitr)
@@ -29,3 +29,4 @@ opts_chunk$set(cache = F, warning = F, message = F, cache.path = "_cache/", tidy
 ### 파일 변환 및 경로 지정
 out.file <- basename(knit(file))
 file.rename(out.file, paste0(posts.path, out.file))
+
