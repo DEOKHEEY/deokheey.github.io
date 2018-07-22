@@ -23,7 +23,6 @@ runtime: shiny
 ***
 
 # RDBMS
-<br>
 
 ### 들어가기 앞서
 
@@ -88,20 +87,23 @@ mermaid("
 
 #### DQL(Data Query Language)
 * `SELECT`: SQL의 기본 중의 기본
-    
+
+
 #### DML(Data Manipulation Language)
     ROW 단위
 * `INSERT`
 * `UPDATE`
 * `DELETE`
 * `MERGE`: DATA WAREHOUSING 할 때 주로 사용
-    
+
+
 #### TCL(Transaction Control Language)
     DML 문장이 수행되면 Transaction이 발생 -> TLC를 반드시 수행해야 충돌이 일어나지 않음
 * `COMMIT`
 * `ROLLBACK`
 * `SAVEPOINT`
-    
+
+
 #### DDL(Data Definition Language)
     TABLE 단위
 * `CREATE`
@@ -110,6 +112,7 @@ mermaid("
 * `RENAME`
 * `TRUNCATE`: 사용시 주의(데이터가 영구히 삭제됌)
 * `COMMENT`: 주석처리 때 사용
+
 
 #### DCL(Data Control Language)
     권한 부여
@@ -172,16 +175,10 @@ SELECT 문의 기능은 3가지다.
 
 ***
 
-<br>
-
 #### PROJECTION
 
 * 테이블에서 열단위로 추출하기 위해 사용함
 
-```sql
-SELECT 컬럼
-FROM 테이블;
-```
 ```sql
 Ex.
 
@@ -189,7 +186,6 @@ SELECT employee_id, last_name
 FROM employees;
 ```
 
-<br>
 
 #### SELECTION
 
@@ -202,8 +198,6 @@ SELECT *
 FROM employees
 WHERE employee_id = 100;
 ```
-
-<br>
 
 #### JOIN
 
@@ -227,8 +221,8 @@ AND e.employee_id=100;
 * 똑같은 실행계획을 반복하면 CPU 낭비. 그래서 실행한 계획을 메모리에 저장을 함
 * DB에 접속한다 = 메모리에 접속한다. -> 메모리가 대신 DISK처리.
 * 하지만, 결과는 같더라도 같은 문장은 아님(대소문자가 다름, 다른 문자체계)
-* 결론, 대소문자를 구분해서 개발해야. (추가로 절은 나눠서 쓰는게 좋음)  
-　
+
+조건은 다음과 같다.
   
 	1. 대소문자 일치
 	2. 공백, TAB KEY, ENTER KEY 일치
@@ -243,22 +237,30 @@ AND e.employee_id=100;
 SELECT * 
 FROM employees 
 WHERE employee_id = 100;
-
+```
+```sql
 SELECT * 
 FROM employees 
 WHERE employee_id = 200;
 ```
 
 * RDMS에다가 row를 입력하면, row마다 고유한 주소를 가지고 있음.
-    * 확인 코드: `SELECT rowid, employee_id FROM employees;`
+
+```sql
+SELECT rowid, employee_id 
+FROM employees;
+```
+
 * rowid는 가상 컬럼이자 책 매커니즘에서의 쪽 번호라 생각하면 됌
 * rowid는 물리적인 row 주소값
+
 ```
-AAAEAbAAEAAAADNAAA
-  AAAEAb(첫 6자리) - Ojbect id
-  AAE(다음 3자리) - data file 번호
-  AAAADN(다음 6자리) - block 번호
-  AAA(다음 3자리) - row slot 번호
+Rowid: AAAEAbAAEAAAADNAAA
+
+AAAEAb(첫 6자리) - Ojbect id
+AAE(다음 3자리) - data file 번호
+AAAADN(다음 6자리) - block 번호
+AAA(다음 3자리) - row slot 번호
 ```
 
 <br>
@@ -304,6 +306,3 @@ mermaid("
     
 * FULL SCAN: 모든 데이터를 검색한다.
 * ROWID SCAN: ROWID를 기억하지 못하니, ROWID SCAN을 하기 위해 INDEX 사용해서 찾음
-
-<br>
-/

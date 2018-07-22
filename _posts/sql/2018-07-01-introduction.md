@@ -1,7 +1,9 @@
 ---
-output: html_document
-author: 이덕희
-runtime: shiny
+layout: post
+title: Introduction
+date: "2018-07-01"
+excerpt: "SQL 환경 설정 및 개요"
+output: github_document
 ---
 
 # SQL Developer 기본 환경 설정
@@ -23,7 +25,6 @@ runtime: shiny
 ***
 
 # RDBMS
-<br>
 
 ### 들어가기 앞서
 
@@ -84,20 +85,23 @@ runtime: shiny
 
 #### DQL(Data Query Language)
 * `SELECT`: SQL의 기본 중의 기본
-    
+
+
 #### DML(Data Manipulation Language)
     ROW 단위
 * `INSERT`
 * `UPDATE`
 * `DELETE`
 * `MERGE`: DATA WAREHOUSING 할 때 주로 사용
-    
+
+
 #### TCL(Transaction Control Language)
     DML 문장이 수행되면 Transaction이 발생 -> TLC를 반드시 수행해야 충돌이 일어나지 않음
 * `COMMIT`
 * `ROLLBACK`
 * `SAVEPOINT`
-    
+
+
 #### DDL(Data Definition Language)
     TABLE 단위
 * `CREATE`
@@ -107,6 +111,7 @@ runtime: shiny
 * `TRUNCATE`: 사용시 주의(데이터가 영구히 삭제됌)
 * `COMMENT`: 주석처리 때 사용
 
+
 #### DCL(Data Control Language)
     권한 부여
 * `GRANT`
@@ -115,12 +120,12 @@ runtime: shiny
 ***
 
 ### 책 매커니즘
-　  | 
-------| ------ 
-책      | TABLE
-페이지  | PAGE, BLOCK
-문장    | ROW
-단어    | FIELD
+|　  | |
+|------| ------ |
+|책      | TABLE|
+|페이지  | PAGE, BLOCK|
+|문장    | ROW|
+|단어    | FIELD|
 
 
 ***
@@ -129,12 +134,13 @@ runtime: shiny
 
 * Oracle DB 안에 DATA를 저장하는 단계는 다음 순서와 같다
 
-DB            | 논리적인 영역
-------        | ------ 
-TABLE SPACE   | DB보다 하위의 논리적인 영역
-SEGMENT       | Storage를 갖는 TABLE(OBJECT)<BR>실제 데이터가 저장되는 영역
-EXTENT        | BLOCK의 집합
-BLOCK         | 최소 INPUT/OUTPUT 단위<BR>크기는 보통 2K, 4K, 8K, 16K, 32K
+|DB            | 논리적인 영역|
+|------        | ------ |
+|TABLE SPACE   | DB보다 하위의 논리적인 영역|
+|SEGMENT       | Storage를 갖는 TABLE(OBJECT)<BR>실제 데이터가 저장되는 영역|
+|EXTENT        | BLOCK의 집합|
+|BLOCK         | 최소 INPUT/OUTPUT 단위<BR>크기는 보통 2K, 4K, 8K, 16K, 32K|
+
 ***
 
 ### RDBMS에서 데이터를 처리하는 방법 
@@ -168,16 +174,10 @@ SELECT 문의 기능은 3가지다.
 
 ***
 
-<br>
-
 #### PROJECTION
 
 * 테이블에서 열단위로 추출하기 위해 사용함
 
-```sql
-SELECT 컬럼
-FROM 테이블;
-```
 ```sql
 Ex.
 
@@ -185,7 +185,6 @@ SELECT employee_id, last_name
 FROM employees;
 ```
 
-<br>
 
 #### SELECTION
 
@@ -198,8 +197,6 @@ SELECT *
 FROM employees
 WHERE employee_id = 100;
 ```
-
-<br>
 
 #### JOIN
 
@@ -223,8 +220,8 @@ AND e.employee_id=100;
 * 똑같은 실행계획을 반복하면 CPU 낭비. 그래서 실행한 계획을 메모리에 저장을 함
 * DB에 접속한다 = 메모리에 접속한다. -> 메모리가 대신 DISK처리.
 * 하지만, 결과는 같더라도 같은 문장은 아님(대소문자가 다름, 다른 문자체계)
-* 결론, 대소문자를 구분해서 개발해야. (추가로 절은 나눠서 쓰는게 좋음)  
-　
+
+조건은 다음과 같다.
   
 	1. 대소문자 일치
 	2. 공백, TAB KEY, ENTER KEY 일치
@@ -239,22 +236,30 @@ AND e.employee_id=100;
 SELECT * 
 FROM employees 
 WHERE employee_id = 100;
-
+```
+```sql
 SELECT * 
 FROM employees 
 WHERE employee_id = 200;
 ```
 
 * RDMS에다가 row를 입력하면, row마다 고유한 주소를 가지고 있음.
-    * 확인 코드: `SELECT rowid, employee_id FROM employees;`
+
+```sql
+SELECT rowid, employee_id 
+FROM employees;
+```
+
 * rowid는 가상 컬럼이자 책 매커니즘에서의 쪽 번호라 생각하면 됌
 * rowid는 물리적인 row 주소값
+
 ```
-AAAEAbAAEAAAADNAAA
-  AAAEAb(첫 6자리) - Ojbect id
-  AAE(다음 3자리) - data file 번호
-  AAAADN(다음 6자리) - block 번호
-  AAA(다음 3자리) - row slot 번호
+Rowid: AAAEAbAAEAAAADNAAA
+
+AAAEAb(첫 6자리) - Ojbect id
+AAE(다음 3자리) - data file 번호
+AAAADN(다음 6자리) - block 번호
+AAA(다음 3자리) - row slot 번호
 ```
 
 <br>
@@ -295,6 +300,3 @@ WHERE rowid = 'AAAEAbAAEAAAADNAAA';
     
 * FULL SCAN: 모든 데이터를 검색한다.
 * ROWID SCAN: ROWID를 기억하지 못하니, ROWID SCAN을 하기 위해 INDEX 사용해서 찾음
-
-<br>
-/
