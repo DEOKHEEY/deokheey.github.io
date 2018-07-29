@@ -6,7 +6,7 @@ rmds <- "_Rmd"
 setwd(base)
 
 # 파일 이름 지정
-filename <- "2018-07-21-introductiond"
+filename <- "2018-07-21-introduction.Rmd"
 
 # 폴더 경로들
 figs.path <- "assets/article_images/"

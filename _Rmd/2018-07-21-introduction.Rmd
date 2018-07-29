@@ -1,6 +1,13 @@
 ---
-author: 이덕희
-output: html_document
+layout: post
+title: "Introduction"
+date: "2018-07-01"
+excerpt: "SQL 환경 설정 및 개요"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+comments: true
 ---
 
 # SQL Developer 기본 환경 설정
