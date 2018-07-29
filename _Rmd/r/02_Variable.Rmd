@@ -1,0 +1,977 @@
+---
+title: "Data type"
+output: html_document
+---
+
+## 벡터(Vector)
+
+- 같은 데이터 타입을 갖는 1차원 배열 구조(R의 기본데이터 구조)
+- `c()`: combine value 
+- 벡터는 중첩이 불가능하다.
+- 벡터는 단일 데이터 타입만 가능
+- 데이터 변환규칙: `integer` < `double` < `character`
+
+```{r}
+x <- c(1,2,3,4,5)
+mode(x)
+class(x)
+str(x)
+```
+
+벡터는 단일 데이터 타입만 가능하다는 것을 기억하자. 그래서 데이터 변환 규칙에 따라 아래 변수는 캐릭터형으로 바뀐다.
+
+```{r}
+x <- c(1,2,3,4,'5')
+mode(x)
+class(x)
+str(x)
+```
+
+벡터는 중첩이 불가능하여서 중첩해서 쓸 시 중첩 벡터를 풀어버린다.
+
+```{r echo=TRUE}
+x <- c(1,2,3,c(4,5))
+print(x)
+```
+
+아래 코드를 보고 사용할 때에 주의하자.
+
+```{r echo=TRUE}
+# dataframe의 column이름을 표현
+x<-c(1,2,3,sum=c(4,5))
+
+# sum 사용
+y<-c(1,2,3,sum(c(4,5)))
+```
+
+차이점은 다음을 보면 명확히 알 수 있을 것이다. 해당 값을 컬럼 이름으로 사용하는 방법이다. `names()`(벡터의 각 셀에 이름을 설정하는 method)을 사용하여 수정할 수 있다.
+
+```{r echo=TRUE}
+x <- c("국어"=90, "수학"=95,"영어"=80)
+x
+
+# 순차적으로 네이밍을 해준다.
+z <- c("과목" = c(80,90,96))
+
+# 이름을 바꾸고 싶을 때 names() method 사용
+names(z) <- c("국어","수학","영어")
+
+# 지우고 싶을 때는 NULL 사용 (NA는 이름이 결측치로 나타남)
+names(z) <- NULL
+
+# 벡터의 길이를 알고 싶을 때 (length와 NROW 사용)
+length(z)
+NROW(z)
+```
+
+***
+
+### 요소 번호 이용 방법
+
+벡터의 요소번호를 이용하는 방법은 다음과 같다.
+
+```{r echo=TRUE}
+y <- c(1,2,3,4,5)
+names(y) <- c('하나','둘','셋','넷','다섯')
+
+# 1번 요소의 값을 출력
+y[1]
+
+# 1번부터 3번까지 요소의 값을 출력
+y[1:3]
+
+# 1번 요소를 제외하고 출력
+y[-1]
+
+# 1번부터 3번요소까지 값을 제외하고 출력
+y[-1:-3]
+
+# 1번과 3번요소의 값을 제외하고 출력
+y[c(-1,-3)]
+
+# 셀의 이름으로도 검색 가능
+y[c("하나","다섯")]
+```
+
+***
+
+### 벡터 값 수정
+
+```{r echo=TRUE}
+x <- c(1:5)
+
+# 2번째의 요소값을 200으로 수정
+x[2] <- 200
+x
+
+# 3번부터 5번 요소 값을 수정
+x[3:5] <- c(30,40,50)
+x
+```
+
+***
+
+### 벡터 값 추가
+
+```{r echo=TRUE}
+x <- c(1:5)
+x[6] <- 6
+x
+
+x[8] <- 8
+x
+```
+
+`append()`를 사용하여 추가 할 수 있다. (method 참고)
+
+```{r echo=TRUE}
+x <- c(1:5)
+x <- append(x,6,after = 5)
+x
+```
+
+***
+
+### 벡터 연산
+
+R의 장점 중 하나이다. 배열안에 있는 값들을 수정할 때 아주 편리하다.
+
+```{r echo=TRUE}
+x <- c(1:5)
+
+# x안의 모든 변수에 연산이 가능하다
+x + 10
+
+x * x
+```
+
+***
+
+### 벡터 비교
+
+각각의 요소끼리 비교한다.
+
+```{r echo=TRUE}
+x <- c(1,2,3)
+y <- c(1,2,3)
+z <- c(1,2,4)
+
+x == y
+x == z
+
+
+# identical을 사용하여 비교할 수 있다.
+identical(x,y)
+
+# identical은 하나라도 틀리면 FALSE값이 나온다.
+identical(x,z)
+```
+
+***
+
+### %in%: 특정값 확인
+
+`%in%`을 사용하여 배열에 특정값이 있는지 알 수 있다.
+
+
+```{r echo=TRUE}
+x <- c(1,2,3)
+
+1 %in% x
+5 %in% x
+```
+
+***
+
+## method 정리
+
+### seq(): 연속값 표현
+
+값을 시퀀스하게 표현할 때 유용하다. 시퀀스하게 값을 사용한다면 integer type으로 저장된다.
+
+```{r echo=TRUE}
+x <- 1:100
+
+x <- c(1:100)
+```
+
+`seq(시작값, 종료값, 증가분)`를 사용하면 자동으로 일련번호를 생성해준다.
+
+```{r echo=TRUE}
+seq(0,100,by = 5)
+
+seq(100,0,-10)
+```
+
+`seq()`의 시작값과 종료값 사이의 값을 균등하게 나눌 수 있는 `length.out`을 사용할 수 있다.
+
+```{r echo=TRUE}
+seq(1,10,length.out=5)
+```
+
+***
+
+### seq_along(): 개수만큼 출력
+
+`seq_along()`은 값의 개수만큼 seq하게 일렬번호 생성해준다.
+
+```{r echo=TRUE}
+x <- c(2,4,6,8,10)
+1: NROW(x)
+
+# 위를 seq_along를 사용하면 개수만큼 자동으로 생성해준다.
+seq_along(x)
+
+```
+
+***
+
+### rep(): 반복 출력
+
+`rep()`은 반복시켜주는 method이다.
+
+```{r echo=TRUE}
+# 1부터 5까지 2번 반복
+rep(1:5, times=2)
+
+# 1부터 5까지 출력하는데 2개씩 출력
+rep(1:5, each=2)
+
+rep(1:5, each=2, times=2)
+```
+
+***
+
+### append(): 값 추가
+
+방과 방사이에 값을 넣을 때 유용하다.
+
+```{r echo=TRUE}
+x <- c(1:5)
+append(x,6,after = 5)
+# x에 6이 추가가 안되있다. 
+x
+
+x <- append(x,7,after = 5)
+# x변수에 할당을 해주어야 x에 반영이 된다.
+x
+
+# 방과 방사이에 값을 넣을 때 사용
+x <- append(x,6,after = 5)
+x
+```
+
+***
+
+### identical()/ setequal(): 배열 비교
+
+`identical()`은 두 벡터의 값이 동일한지 판단한다. 각각의 요소가 아닌 전체를 가지고 비교하는 method이다.
+
+```{r echo=TRUE}
+x <- c(1,2,3)
+y <- c(1,2,4)
+z <- c(1,2,3,4)
+
+# 각각의 요소로 비교
+x == y
+
+# 전체를 가지고 비교
+identical(x,z)
+```
+
+`setequal()`은 두 벡터가 같은 집합인지 판단
+
+```{r echo=TRUE}
+x <- c(1,2,3,4)
+y <- c(1,2,3,4,4)
+
+setequal(x,y)
+```
+
+> 주의. 두 메소드를 다음으로 비교해보자.
+
+```{r echo=TRUE}
+x <- c(1,2,3,4,5)
+y <- c(1:5)
+
+identical(x,y)
+setequal(x,y)
+```
+
+`identical()`은 각각의 요소를 타입까지 비교한다. `x`는 numeric type이고 `y`는 integer type이다. (`str()`로 확인 가능) 그래서 `FALSE`값이 return된다. 하지만 `setequal()`은 전체 집합의 개념으로 비교해서 `TRUE`값이 출력된다.  
+
+***
+
+### union/ intersect/ setdiff(): 집합연산자
+
+`union()`: 합집합
+`intersect()`: 교집합
+`setdiff()`: 차집합
+
+```{r echo=TRUE}
+x <- c(1,2,3,4)
+y <- c(1,4,6)
+
+union(x,y)
+intersect(x,y)
+setdiff(x,y)
+```
+
+***
+
+### sort(): 정렬
+
+`sort()`에 `decreasing`을 사용하여 오름차순과 내림차순으로 설정할 수 있다. 기본값은 오름차순(`decreasing = FALSE`이다.
+
+```{r echo=TRUE}
+x <- c(1,6,4,2,9,8)
+sort(x)
+
+# 내림차순
+sort(x,decreasing = TRUE)
+```
+
+***
+
+### which(): 배열의 index(요소) 번호 파악
+
+`which()`는 조건에 해당하는 요소번호를 찾을 때 사용한다. 아래 코드를 필요성을 이해해보자.
+
+```{r echo=TRUE}
+x <- c('b','a','d','a',NA)
+
+# Boolean으로 return해줌
+'a' %in% x
+
+# NA까지 같이 출력
+x[x=='a']
+
+# which 사용
+which('a' == x)
+
+# which 응용 (값을 대체할 때)
+x[which('a' == x)] <- 'A'
+```
+
+결측치의 위치를 알고 싶을 때 `is.na()`를 사용하자.
+
+```{r echo=TRUE}
+# NA의 위치를 알고 싶을 땐 다음과 같이 사용
+which(is.na(x))
+
+# 다음과 같이 사용하지 말자
+which(NA == x)
+```
+
+***
+
+## 리스트형
+
+- 서로 다른 데이터 타입을 갖는 벡터들을 저장하거나 또다른 리시트 저장 가능한 구조이다.
+- list(키 = 값, 키 = 값)으로 사용한다.
+
+```{r echo=TRUE}
+x <- list(name = '홍길동', addr = '서울시', pn = '010-1111-1234')
+x
+class(x)
+mode(x)
+str(x)
+```
+
+특정 데이터를 출력하고 싶을 땐 다음과 같이 사용한다.
+
+```{r echo=TRUE}
+x <- list(name = '홍길동', addr = '서울시', pn = '010-1111-1234')
+
+y<-c(x$name,x$addr,x$pn)
+```
+
+value만 보고 싶을 땐 대괄호를 2개 넣는다.
+
+```{r echo=TRUE}
+x <- list(name = '홍길동', addr = '서울시', pn = '010-1111-1234')
+
+y <- c(x[[1]],x[[2]],x[[3]])
+y
+```
+
+***
+
+### list 요소 추가
+
+```{r echo=TRUE}
+x <- list(name = '홍길동', addr = '서울시', pn = '010-1111-1234')
+
+x$sal <- 10000
+x
+```
+
+***
+
+### list 요소 제거
+
+```{r echo=TRUE}
+x <- list(name = '홍길동', addr = '서울시', pn = '010-1111-1234')
+
+x$sal <- NULL
+x
+```
+
+***
+
+### list 요소 수정
+
+```{r echo=TRUE}
+x <- list(name = '홍길동', addr = '서울시', pn = '010-1111-1234')
+
+x$pn <- '010-1234-1004'
+x
+```
+
+***
+
+### list 중첩
+
+```{r echo=TRUE}
+y <- list(a = list(val = c(1,2,3)),
+          b = list(val = c(1,2,3,4)))
+
+y
+x <- c(y$a,y$b)
+```
+
+***
+
+## 행렬(MATRIX)
+
+- 벡터처럼 한가지 유형의 스칼라 값만 저장
+- MATRIX함수를 이용해서 행렬을 생성
+- 행과 열을 지정해주어야 한다.
+- 행렬의 정보를 알고 싶을 시에는 다음과 같은 메소드를 사용하면 된다.
+    
+    `nrow(x)`: 행의 수,
+    `ncol(x)`: 열의 수,
+    `dim(x)`: 행과 열의 수
+
+
+이제 행렬을 만들어보자.
+
+```{r echo=TRUE}
+x <- matrix(c(1:9),nrow=3) # nrow=3 행의 수
+x
+
+x <- matrix(c(1:10),ncol=2) # ncol=2 열의 수
+x
+
+x <- matrix(c(1:9),nrow=3, ncol=3)
+x
+```
+
+행렬을 생성하면 열을 기준으로 먼저 채워진다. 행을 기준으로 먼저 채우고 싶다면 아래와 같이 한다.
+
+```{r echo=TRUE}
+# 행부터 값을 채움
+x <- matrix(c(1:9),nrow=3, byrow=TRUE) 
+x
+
+# 열부터 값을 채움
+x <- matrix(c(1:9),nrow=3, byrow=FALSE)
+x
+```
+
+***
+
+### 행렬 모양 변경
+
+`dim()`을 사용하여 행렬의 모양을 바꿀 수 있다. 
+
+```{r echo=TRUE}
+x <- matrix(c(1:6),ncol = 3)
+x
+dim(x)
+
+# dim을 사용하여 행렬의 모양을 바꿀 수 있다.
+dim(x) <- c(3,2)
+```
+
+***
+
+### 행렬 이름 조작
+
+`dimnames()`, `rownames()`, `colnames()`를 사용하여 행렬의 이름을 수정, 추가 할 수 있다. 우선, 행과 열의 이름을 표현하고 싶을 때 `dimnames()`에 리스트형으로 값을 넣어주면 된다. 
+
+```{r echo=TRUE}
+x <- matrix(c(1,2,3,4), nrow = 2, byrow = TRUE, 
+            dimnames = list(c("row1","row2"), c("col1","col2")))
+x
+
+# 다음과 같이 후에 추가해도 된다.
+x <- matrix(c(1:9), ncol = 3)
+dimnames(x) <- list(c("row1","row2","row3"), c("col1","col2","col3"))
+x
+```
+
+행의 이름만 조작하고 싶을 때 `rownames()`를, 열의 이름을 조작하고 싶을 때는 `colnames(x)`를 사용하면 된다.
+
+```{r echo=TRUE}
+x <- matrix(c(1:9), ncol = 3)
+# 행렬의 이름이 없어 null값이다.
+c(rownames(x),colnames(x))
+
+rownames(x) <- c("R1","R2","R3")
+colnames(x) <- c("C1","C2","C3")
+
+c(rownames(x),colnames(x))
+```
+
+다음과 같이 변수에 이름을 저장해서 사용할 수 도 있다.
+
+```{r echo=TRUE}
+cells<-c(1:9)
+rname<-c("r1","r2","r3")
+cname<-c("c1","c2","c3")
+(x <- matrix(cells, nrow = 3, byrow = TRUE,
+            dimnames = list(rname,cname)))
+```
+
+***
+
+### 행렬 값 추출/수정
+
+`행렬이름[행index, 열index]`를 사용하면 원하는 행렬의 값을 추출할 수 있다.
+
+```{r echo=TRUE}
+x <- matrix(c(1:9), ncol = 3,
+            dimnames = list(c("row1","row2","row3"), c("col1","col2","col3")))
+
+# 1행 1열의 값 추출
+x[1,1]
+
+# 1행의 값 추출
+x[1,]
+
+# 2열의 값 추출
+x[,2]
+
+# 1행의 값 중 2열을 제외한 값 추출
+x[1,-2]
+
+# 1행의 값 중 2:3 의 값 추출
+x[1,2:3]
+
+# 1,3행과 1,2열의 값 추출
+x[c(1,3),c(1,2)]
+
+# row1의 이름을 가진 행을 추출
+x["row1",]
+
+# col1의 이름을 가진 열을 추출
+x[,"col1"]
+
+# 특정 행렬 값을 수정
+x[1,1] <- 10
+x
+```
+
+***
+
+### 행렬의 연산
+
+벡터처럼 행렬에서도 연산이 가능하다. 주의해야 할 점은 행렬의 곱은 `%*%`으로 표현한다.
+
+```{r echo=TRUE}
+x <- matrix(c(1:4), ncol=2)
+
+x + 10
+
+# 요소끼리 곱해진다
+x * x
+
+# 행렬의 곱은 다음과 같이 표현한다.
+x %*% x
+```
+
+***
+
+### 전치행렬과 역행렬
+
+전치행렬은 행과 열의 위치를 바꾼 행렬이다. 역행렬은 행렬에 곱했을 때 단위행렬이 나오는 행렬이다.
+
+```{r echo=TRUE}
+x <- matrix(c(1:4), ncol=2)
+
+# 전치행렬
+t(x)
+
+# 역행렬
+solve(x)
+
+# 단위행렬
+x %*% solve(x)
+```
+
+***
+
+### 행렬 결합
+
+`cbind()`와 `rbind()`를 사용하여 서로 다른 행렬을 결합할 수 있다.
+
+```{r echo=TRUE}
+x <- matrix(c(1:9),nrow = 3)
+y <- matrix(c(1:9),nrow = 3)
+
+cbind(x,y)
+rbind(x,y)
+```
+
+***
+
+## 배열(Array)
+
+- 같은 데이터 타입을 갖는 3차원 배열구조
+- matrix는 2차원 행렬, array는 3차원 행렬
+- array 함수를 이용해서 배열 생성
+- matrix와 유사하게 사용하면 된다.
+
+```{r echo=TRUE}
+# 2차원 행렬이여서 matrix형식으로 출력됌
+x <- array(c(1:6), dim = c(2,3))
+x 
+
+# 2행 3열짜리를 4면으로 배열 생성
+x <- array(c(1:24), dim = c(2,3,4))
+x
+```
+
+***
+
+### 배열 값 추출
+
+```{r echo=TRUE}
+# 4면의 1행 1열값들을 모두 추출
+x[1,1,]
+
+# 4면의 1행의 값들을 모두 추출
+x[1,,]
+
+# 4번째 면만 추출
+x[,,4]
+```
+
+***
+
+### 배열 이름 설정
+
+matrix와 비슷하게 `dimnames()`, `rownames()`, `colnames()`를 사용하면 된다.
+
+```{r echo=TRUE}
+# 행 이름 설정 
+dimnames(x) <- list(c("r1","r2"),c("c1","c2","c3"))
+x
+```
+
+***
+
+## 팩터(factor)
+
+- 범주형: 데이터를 미리 정해진 유형으로 분류
+- level: A,B,C,D,E / "좋음","보통","나쁨"
+- 팩터형은 연산작업이 불가능하다.
+- 종류: 순서형(Ordinal), 명목형(Nominal)
+    - 순서형(Ordinal): 데이터간 순서를 둘 수 있는 경우(A,B,C,D)
+    - 명목형(Nomimal): 데이터간 크기 비교가 불가능한 경우(남,여)
+
+
+팩터를 만들어보자.
+
+```{r echo=TRUE}
+x <- factor("A",c("A","B","C"))
+x
+
+# 구조를 확인해보자
+str(x)
+
+class(x)
+
+# level이라는 특징때문에 숫자형으로 표현됌
+mode(x)
+```
+
+***
+
+<br>
+
+### 팩터의 method
+
+
+    `nlevels()`: 레벨의 개수  
+    `nlevels()`: 레벨의 목록
+    `nlevels()[]`: 레벨 값 추출
+
+다음 예시를 보고 이해하자
+
+```{r echo=TRUE}
+x <- factor("GOOD",c("EXCELLENT","GOOD","NORMAL","BAD"))
+
+# 레벨의 개수
+nlevels(x) 
+
+# 레벨의 목록
+levels(x) 
+
+# 레벨의 값 추출
+c(levels(x)[1],levels(x)[2])
+
+# 레벨 이름 변경
+levels(x) <- c("excellent","good","normal","bad")
+x
+```
+
+***
+
+### 순서형 팩터
+
+순서형으로 설정할 시 `ordered`라는 option을 추가한다.
+
+```{r echo=TRUE}
+y <- factor("A",c("A","B","C"), ordered=TRUE)
+
+# 구조를 확인해보자
+str(y)
+
+class(y)
+
+mode(y)
+
+# 형을 확인해보자
+is.factor(y)
+is.ordered(y)
+```
+
+`ordered`라는 option을 사용하지 않아도 다음과 같이 순서형 팩터를 만들 수 있다.
+
+```{r echo=TRUE}
+x <- ordered(c("a","b"),c("a","b","c"))
+x
+is.ordered(x)
+is.factor(x)
+```
+
+***
+
+### 명목형 팩터
+
+```{r echo=TRUE}
+x <- factor(c("large","medium","small","small","large","medium"),
+            levels = c("small","medium","large"))
+
+```
+
+위 팩터에 'tiny'라는 값을 추가하고 싶다. 이전에 배웠던 `append()`를 사용하여 넣어보자.
+
+```{r echo=TRUE}
+x <- factor(c("large","medium","small","small","large","medium"),
+            levels = c("small","medium","large"))
+
+x <- append(x,"tiny",after = 6)
+```
+
+x를 `mode()`를 사용해서 확인하면 numeric이라고 나오는게 내부적으로는 숫자로 구분하고 있었던 것이다. 그럼 값을 추가하고 싶다면 어떻게 해야 할까? 범주형은 값을 추가하기에 까다롭다. 그래서 **벡터형으로 형변환 함수를 사용하여 바꾸어주고** `append()`**를 수행**해야 한다. 값을 추가한 다음 팩터로 바꾸면 level까지 바뀌어져있다.
+
+```{r echo=TRUE}
+x <- factor(c("large","medium","small","small","large","medium"),
+            levels = c("small","medium","large"))
+
+# vector로 형 변환
+x <- as.vector(x)
+
+# 새로운 값 입력
+x <- append(x,"tiny",after = 6)
+
+# 1. factor로 형 변환 (2번은 아래)
+x <- as.factor(x)
+```
+
+하지만 레벨 순서가 바뀌었기 때문에 `levels()`를 사용하여 레벨 순서를 바꾸어준다. 하지만 vector에서 factor로 바꿀 때 vector를 이용해 factor로 바꾸어 줄 수 있다.
+
+```{r echo=TRUE}
+x <- factor(c("large","medium","small","small","large","medium"),
+            levels = c("small","medium","large"))
+x <- as.vector(x)
+x <- append(x,"tiny",after = 6)
+
+# 2. vector를 이용해 factor 생성
+x <- factor(x,c("tiny","small","medium","large"))
+```
+
+하지만 명목형 팩터는 순서는 의미가 없으므로 수정을 해주지 않아도 무방하다.
+
+***
+
+## 데이터프레임(Data Frame)
+
+- 각기 다른 데이터 타입을 갖는 컬럼으로 이루어진 2차원 테이블 구조(DB의 TABLE과 유사하다)
+- `data.frame()` 함수를 이용해서 각 컬럼, 행을 구성한다.
+
+```{r echo=TRUE}
+df <- data.frame(x = c(1,2,3,4,5),
+                 y = c(6,7,8,9,10))
+df
+
+# 서로 다른 데이터타입을 모으기때문에 list형이라 표기되었다.
+mode(df)
+
+class(df)
+
+str(df)
+```
+
+`str()`의 결과로 보이는 obs.는 row의 수, variables는 컬럼의 수로 이해할 수 있다.
+
+***
+
+### stringsAsFactors
+
+ataframe에서 문자형을 입력하면 factor로 자동 저장된다. 이는 나중에 분석하기 까다롭게 하므로 상황에 따라 `stringsAsFactor`를 사용하여 factor 사용 하지 않도록 해야 한다.
+
+```{r echo=TRUE}
+df <- data.frame(name = c('scott','harden','curry'),
+                 sql = c(90,80,70),
+                 plsql = c(70,80,90))
+df
+
+# structure 확인
+str(df)
+```
+
+`str()` 결과 variable 중 name이 factor형으로 자동 저장되었음을 알 수 있다. 이를 바꾸어 주자.
+
+```{r echo=TRUE}
+df <- data.frame(name = c('scott','harden','curry'),
+                 sql = c(90,80,70),
+                 plsql = c(70,80,90),
+                 stringsAsFactors = FALSE)
+
+# structure 확인
+str(df)
+```
+
+factor형에서 문자형으로 변환되었음을 볼 수 있다.
+
+***
+
+### 특정 컬럼 조작(출력/추가/삭제)
+
+아래 코드를 보고 이를 자유자재로 사용할 수 있도록 해야한다.
+
+```{r echo=TRUE}
+df <- data.frame(name = c('scott','harden','curry'),
+                 sql = c(90,80,70),
+                 plsql = c(70,80,90),
+                 stringsAsFactors = FALSE)
+# 특정 컬럼 출력
+df$name
+
+# 1과 3행 출력
+df[c(1,3),]
+
+# sql 열 출력
+df[,"sql"]
+
+# sql 열 출력(세로)
+df[,"sql",drop=FALSE]
+
+# sql과 plsql 열 출력
+df[,c("sql","plsql")]
+
+# 컬럼 이름 확인
+names(df) %in% c("sql","plsql")
+
+# %in%을 사용하여 컬럼 추출
+df[,names(df) %in% c("sql","plsql")]
+
+# 특정 컬럼을 제외하고 추출
+df[,!names(df) %in% c("sql","plsql")]
+
+# 컬럼 추가
+df$r <- c(80,70,60)
+df
+
+# 컬럼 삭제
+df$r <- NULL
+df
+
+# 행 추가
+df[4, ] <- c("lee",90,90)
+df
+
+# 행 삭제
+df <- df[-4,]
+df
+```
+
+컬럼과 행이름 수정 시 `colnames()`, `rownames()`를 사용해서 바꿀 수 있다. 참고로 `colnames()`는 `names()`와 같다.
+
+***
+
+### 대용량 데이터 확인
+
+대용량 dataframe의 경우 `head()`와 `tail()`을 사용하여 대략적인 정보를 확인할 수 있다.
+
+```{r echo=TRUE}
+x <- data.frame(x = 1:1000)
+
+# 앞부분의 데이터
+head(x)
+
+# 뒷부분의 데이터
+tail(x)
+
+# 앞부분의 데이터 10개 추출
+head(x, n = 10)
+
+# 뒷부분의 데이터 10개 추출
+tail(x, n = 10)
+```
+
+***
+
+## 자료형 Summary
+
+1. Vector : 같은 데이터 타입을 갖는 1차원 배열 구조
+2. list : 서로 다른 데이터 타입을 갖는 1차원 배열 구조(중첩 가능)
+3. matrix : 같은 데이터 타입을 갖는 2차원 배열 
+4. array : 같은 데이터 타입을 갖는 3차원 배열 구조
+5. factor : 목록, 범주형 데이터
+6. data.frame : 서로 다른 데이터 타입을 갖는 컬럼으로 이루어진 2차원 배열
+7. table : 데이터프레임과 동일한 구조를 갖는데 속도가 빠르다.
+
+```{r echo = TRUE}
+# vector
+a <- c(1,2)
+
+# list
+b <- list(c('king',100))
+
+# matrix
+c <- matrix(c(1,2))
+
+# array
+d <- array(c(1:12), dim = c(2,2,3))
+
+# factor
+e <- factor(c('male','female'))
+
+# data.frame
+f <- data.frame(x=c(1,2))
+
+cat(" a : ",class(a),"\n b : ",class(b),"\n c : ", class(c),"\n d : ", class(d),"\n e : ", class(e),"\n f : ", class(f))
+
+cat(" a : ",mode(a),"\n b : ",mode(b),"\n c : ", mode(c),"\n d : ", mode(d),"\n e : ", mode(e),"\n f : ", mode(f))
+
+
+
+```
+
+
+`class()`, `mode()`, `str()`로 구조를 확인할 수 있고 `is.type()`을 사용하여 boolean형식으로 출력 받을 수 있다.
