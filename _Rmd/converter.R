@@ -2,11 +2,11 @@
 base <- "/Users/Deokhee/deokheey.github.io/"
 
 # Rmd 파일이 저장된 디렉토리 지정
-rmds <- "_Rmd"
+rmds <- "_Rmd/r"
 setwd(base)
 
 # 파일 이름 지정
-filename <- "2018-07-21-introduction.Rmd"
+filename <- "06_groupfunction.rmd"
 
 # 폴더 경로들
 figs.path <- "assets/article_images/"
