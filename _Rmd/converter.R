@@ -6,11 +6,11 @@ rmds <- "_Rmd"
 setwd(base)
 
 # 파일 이름 지정
-filename <- "2018-07-01-join.Rmd"
+filename <- "2018-07-21-introductiond"
 
 # 폴더 경로들
 figs.path <- "assets/article_images/"
-posts.path <- "_posts/sql/"
+posts.path <- "_posts/convert/"
 
 # Rmd -> md 변환
 require(knitr)

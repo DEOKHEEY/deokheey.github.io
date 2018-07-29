@@ -1,10 +1,7 @@
 ---
-layout: post
-title: Introduction
-date: "2018-07-01"
-excerpt: "SQL 환경 설정 및 개요"
-output: github_document
-comments: true
+output: html_document
+author: 이덕희
+runtime: shiny
 ---
 
 # SQL Developer 기본 환경 설정
@@ -48,14 +45,9 @@ comments: true
 ### 데이터 모델
 
 
-```{r}
-library("DiagrammeR")
-mermaid("
-        graph TB
-        A(클라이언트 머리 속의 모델)-->B(클라이언트의 엔티티 모델)
-        B-->C(엔티 모델의 테이블 모델)
-        C-->D(디스크의 테이블)")
-```
+{% highlight text %}
+## Error in loadNamespace(name): there is no package called 'webshot'
+{% endhighlight %}
 
 ***
 
@@ -126,12 +118,12 @@ mermaid("
 ***
 
 ### 책 매커니즘
-|　  | |
-|------| ------ |
-|책      | TABLE|
-|페이지  | PAGE, BLOCK|
-|문장    | ROW|
-|단어    | FIELD|
+　  | 
+------| ------ 
+책      | TABLE
+페이지  | PAGE, BLOCK
+문장    | ROW
+단어    | FIELD
 
 
 ***
@@ -140,13 +132,12 @@ mermaid("
 
 * Oracle DB 안에 DATA를 저장하는 단계는 다음 순서와 같다
 
-|DB            | 논리적인 영역|
-|------        | ------ |
-|TABLE SPACE   | DB보다 하위의 논리적인 영역|
-|SEGMENT       | Storage를 갖는 TABLE(OBJECT)<BR>실제 데이터가 저장되는 영역|
-|EXTENT        | BLOCK의 집합|
-|BLOCK         | 최소 INPUT/OUTPUT 단위<BR>크기는 보통 2K, 4K, 8K, 16K, 32K|
-
+DB            | 논리적인 영역
+------        | ------ 
+TABLE SPACE   | DB보다 하위의 논리적인 영역
+SEGMENT       | Storage를 갖는 TABLE(OBJECT)<BR>실제 데이터가 저장되는 영역
+EXTENT        | BLOCK의 집합
+BLOCK         | 최소 INPUT/OUTPUT 단위<BR>크기는 보통 2K, 4K, 8K, 16K, 32K
 ***
 
 ### RDBMS에서 데이터를 처리하는 방법 
