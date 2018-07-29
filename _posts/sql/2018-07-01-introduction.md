@@ -19,7 +19,7 @@ comments: true
     * Data는 Storage에 저장되어 있고 이 Storage에 저장되어 있는 Data를 다루기 위해 메모리에 저장해야함
     * 이 메모리 이름을 __SID__라 부름.
     * SID는 Storage 이름과 일치해야 함
-    
+      
 * 현업에서 접속을 위해 고객사로부터 받 정보
     * 접속이름/사용자이름/PW/호스트이름/포트/SID
     
@@ -36,11 +36,11 @@ comments: true
         * 왜? 중복을 제거하기 위해 -> 저장공간 낭비 방지 
         * __중복이 있다면 무조건 분리시키고 Key 값을 가져가자__
     * 모델러: 현업의 전문가로서 데이터 모델링을 하는 사람  
-    
+  
 * 데이터 무결성 
     * 데이터의 정확성과 일관성을 유지하는 것
     * 데이터의 품질과 연관됌  
-    
+  
 * Table 디자인을 고민해서 DB를 만들어야 함
 
 ***
@@ -48,7 +48,7 @@ comments: true
 ### 데이터 모델
 
 
-```{r}
+```{r, results='asis', echo=FALSE}
 library("webshot")
 library("DiagrammeR")
 mermaid("

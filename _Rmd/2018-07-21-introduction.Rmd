@@ -1,7 +1,6 @@
 ---
-output: html_document
 author: 이덕희
-runtime: shiny
+output: html_document
 ---
 
 # SQL Developer 기본 환경 설정
