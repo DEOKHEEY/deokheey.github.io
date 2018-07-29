@@ -2,7 +2,7 @@
 layout: post
 title: Introduction
 date: "2018-07-01"
-excerpt: "SQL 환경 설정 및 개요"
+excerpt: "SQL.환경 설정 및 개요"
 output: github_document
 comments: true
 ---
@@ -35,11 +35,11 @@ comments: true
     * 엔티티 분리: 정규화 작업
         * 왜? 중복을 제거하기 위해 -> 저장공간 낭비 방지 
         * __중복이 있다면 무조건 분리시키고 Key 값을 가져가자__
-    * 모델러: 현업의 전문가로서 데이터 모델링을 하는 사람
+    * 모델러: 현업의 전문가로서 데이터 모델링을 하는 사람  
     
 * 데이터 무결성 
     * 데이터의 정확성과 일관성을 유지하는 것
-    * 데이터의 품질과 연관됌
+    * 데이터의 품질과 연관됌  
     
 * Table 디자인을 고민해서 DB를 만들어야 함
 
@@ -49,6 +49,7 @@ comments: true
 
 
 ```{r}
+library("webshot")
 library("DiagrammeR")
 mermaid("
         graph TB
