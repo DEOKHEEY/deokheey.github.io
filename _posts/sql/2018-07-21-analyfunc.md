@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ANALYTIC FUNCTION"
+title: "[SQL] ANALYTIC FUNCTION"
 date: "2018-07-21"
 excerpt: "OLAP 기능에 적합한 함수"
 toc: true

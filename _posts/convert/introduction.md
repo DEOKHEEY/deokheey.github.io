@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Introduction"
+title: "[SQL] Introduction"
 date: "2018-07-01"
 excerpt: "SQL 환경 설정 및 개요"
 output: 
@@ -8,6 +8,10 @@ output:
     toc: true
     toc_depth: 3
 comments: true
+categories:
+  sql
+tags:
+  sql, erdiagram
 ---
 
 # SQL Developer 기본 환경 설정
@@ -50,30 +54,7 @@ comments: true
 
 ### 데이터 모델
 
-
-{% highlight text %}
-## PhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in normalizePath(f2): path[1]="./webshot2052723b0103.png": No such
-## file or directory
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in file(con, "rb"): cannot open file './webshot2052723b0103.png':
-## No such file or directory
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in file(con, "rb"): cannot open the connection
-{% endhighlight %}
+![plot of chunk unnamed-chunk-1](/assets/article_images/introduction/unnamed-chunk-1-1.png)
 
 ***
 
@@ -316,30 +297,7 @@ WHERE rowid = 'AAAEAbAAEAAAADNAAA';
 ## SCAN 방식
 * RDBMS에서 데이터를 처리하는 방법은 __2가지__ 뿐이다.
 
-
-{% highlight text %}
-## PhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in normalizePath(f2): path[1]="./webshot2052700a5e93.png": No such
-## file or directory
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Warning in file(con, "rb"): cannot open file './webshot2052700a5e93.png':
-## No such file or directory
-{% endhighlight %}
-
-
-
-{% highlight text %}
-## Error in file(con, "rb"): cannot open the connection
-{% endhighlight %}
+![plot of chunk unnamed-chunk-2](/assets/article_images/introduction/unnamed-chunk-2-1.png)
     
 * FULL SCAN: 모든 데이터를 검색한다.
 * ROWID SCAN: ROWID를 기억하지 못하니, ROWID SCAN을 하기 위해 INDEX 사용해서 찾음
