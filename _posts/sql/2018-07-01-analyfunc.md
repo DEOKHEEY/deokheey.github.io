@@ -1,13 +1,15 @@
 ---
 layout: post
 title: "ANALYTIC FUNCTION"
-date: "2017-07-21"
-excerpt: "OLAP 기능에 적합한 분석 함수"
+date: "2018-07-21"
+excerpt: "OLAP 기능에 적합한 함수"
 toc: true
 tag:
-  sql
+  sql, analyticfunction
 output: github_document
 comments: true
+categories:
+  sql
 ---
 
 ## 분석함수(Analytic Function)

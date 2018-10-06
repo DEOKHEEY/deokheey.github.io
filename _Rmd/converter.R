@@ -1,12 +1,12 @@
 # jekyll 블로그 디렉토리 설정
-base <- "/Users/Deokhee/deokheey.github.io/"
+base <- "/Volumes/DEOKHEE/deokheey.github.io/"
 
 # Rmd 파일이 저장된 디렉토리 지정
-rmds <- "_Rmd/r"
+rmds <- "_Rmd/sql"
 setwd(base)
 
 # 파일 이름 지정
-filename <- "06_groupfunction.rmd"
+filename <- "introduction.Rmd"
 
 # 폴더 경로들
 figs.path <- "assets/article_images/"
