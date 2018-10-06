@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[SQL] Introduction"
+title: "Introduction"
 date: "2018-07-01"
 excerpt: "SQL 환경 설정 및 개요"
 output: 
@@ -8,10 +8,6 @@ output:
     toc: true
     toc_depth: 3
 comments: true
-categories:
-  sql
-tags:
-  sql, erdiagram
 ---
 
 # SQL Developer 기본 환경 설정
