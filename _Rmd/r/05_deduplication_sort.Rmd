@@ -1,6 +1,15 @@
 ---
-title: "중복 제거과 정렬"
-output: html_document
+layout: post
+title: "[R] Deduplication, Sort"
+date: "2018-08-01"
+excerpt: "중복을 제거하고 정렬을 시켜보자"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+comments: true
+categories: R
+tag: [R, deduplication, sort]
 ---
 
 ## Deduplication

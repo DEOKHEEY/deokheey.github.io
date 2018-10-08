@@ -1,0 +1,69 @@
+---
+layout: post
+title: "[Python] module 기초"
+date: "2018-09-01"
+excerpt: "python module을 만들고 불러와보자"
+output: github_document
+tag:
+    [python, module, .py]
+comments: true
+categories:
+  Python
+---
+
+## module
+
+파이썬에서 경로만 지정해주면 해당 디렉토리의 `.py` 확장자로 된 파일을 읽어 들여서 메소드를 사용할 수 있다. 사용하는 이유는 자주 사용하는 프로그램들은 파일단위로 떨어트려서 불러들이는 것이 편하기 때문이다.
+
+```
+1. 경로(path) 설정
+2. `.py` 파일 생성
+3. `import`
+```
+
+***
+
+### 경로 설정
+
+경로는 다음과 같이 확인하고 설정할 수 있다.
+
+```{python, eval=FALSE}
+import sys
+
+sys.path # path가 걸려져 있는 주소 확인
+sys.path.append('경로 주소') # 해당 주소 경로 추가
+
+# 경로를 지울때는 .remove()를 사용한다.
+```
+
+***
+
+### 모듈 저장과 사용
+
+모듈을 `.py` 파일 단위로 떨어트려서 설정된 path에 저장해 준다. 그리고 `import`를 사용하여 불러들인다.
+
+```
+import 파일이름
+
+파일이름.사용하고자하는 함수()
+```
+
+예를 들어 다음과 같다.
+
+
+```{python}
+import math
+
+x = math.sqrt(25)
+print(x)
+```
+
+매번 모듈 이름을 적고 사용하기 귀찮으면 다음과 같이 쓸 수 있다.
+
+```{python}
+import math
+
+from math import *
+
+print(sqrt(36))
+```

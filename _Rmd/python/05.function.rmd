@@ -1,0 +1,175 @@
+---
+layout: post
+title: "[Python] 함수 만들기"
+date: "2018-09-01"
+excerpt: "파이썬에서 함수를 만들어보자"
+output: github_document
+tag:
+    [python, lambda, function]
+comments: true
+categories:
+  Python
+---
+
+## 함수
+
+- 기능의 프로그램
+- 반복되는 코드를 하나로 묶어서 처리하는 방법
+
+<br>
+
+### 함수 생성
+
+```
+def 함수이름(인수,인수,,,):
+  수행할 로직
+  
+  [return 값] # 값이 없는 return은 종료의 의미
+```
+
+<br>
+
+예문을 만들어 보자
+
+```{python}
+def message():
+  print("Hello world")
+
+message()
+```
+
+인자값을 받는 함수
+
+```{python}
+def message(x):
+  print("Hello %s world"%(x))
+
+message("python")
+```
+
+
+`RETURN`값을 주는 함수
+
+```{python}
+def message():
+  print("hello")
+  return "world"
+
+# 함수 호출
+message()
+
+# 변수 저장 후 호출
+word = message()
+print(word) # return값이 저장됌
+```
+
+`RETURN`값이 없으면 아무 작업을 하지 않는다.
+
+```{python}
+def f2(x,y):
+    if y == 0:
+        return
+    print(x/y)
+
+f2(4,2)
+f2(4,0) # 값이 없는 return문은 아무 작업 없이 종료
+```
+
+***
+
+### 가변 인자 함수 생성
+
+매개변수를 받은 곳에 다음과 같이 `*`을 사용하여 표현한다.
+
+```
+def 함수이름(*인수):
+    수행해야할 문장
+```
+
+예문을 만들어 보자
+
+```{python}
+# sum 함수
+def num_sum(*x):
+    res = 0
+    for i in x:
+        res += i
+    return res
+
+
+print(num_sum(1,2))
+print(num_sum(1,2,3,4,5))
+```
+
+***
+
+### 여러 값을 return하는 함수
+
+return문은 하나만 받을 수 있다. 아래 문제를 보고 살펴보자.
+
+```{python}
+def f1(x,y):
+    return x+y
+    return x*y
+
+z = f1(2,3)
+print(z)
+```
+
+출력하였지만 하나의 값만 받게 된다. 사용하려면 다음과 같이 `,`로 연결해야 한다.
+
+```{python}
+def f1(x,y):
+    return x+y,x*y
+
+sum, mul = f1(2,3)
+print("x + y :",sum,"\nx * y :",mul)
+
+```
+
+***
+
+### default를 갖는 함수
+
+default값을 설정해두고 매개변수가 들어오지 않으면 기본값을 출력하도록 할 수 있다.
+
+```{python}
+# 3번째 값이 들어오지 않으면 'M'으로 출력하는 함수
+def f(name,age,gender = "M"):
+    print("name :",name)
+    print("age :",age)
+    if gender == "M":
+        print("male")
+    else:
+        print("female")
+
+    
+f("James",25)
+f("Juliet",20,"F")
+```
+
+***
+
+### Lambda 함수
+
+이름이 없는 한줄짜리 함수이다. 한줄이니 가독성을 위해서 사용하기도 한다.
+
+```{python}
+def f(x,y):
+    return x*y
+
+print(f(2,3))
+```
+
+위의 함수를 다음과 같이 한줄에 표현할 수 있다.
+
+```{python}
+(lambda x,y : x*y)(2,3)
+```
+
+함수 자체를 변수에 넣어서 사용할 수 있다.
+
+```{python}
+f = lambda x,y : x*y
+print(f(2,3))
+```

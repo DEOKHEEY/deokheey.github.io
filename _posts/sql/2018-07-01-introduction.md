@@ -9,9 +9,9 @@ output:
     toc_depth: 3
 comments: true
 tag:
-  sql, sqldeveloper, erdiagram
+  [sql, sqldeveloper, erdiagram]
 categories:
-  sql
+  SQL
 ---
 
 # SQL Developer 기본 환경 설정

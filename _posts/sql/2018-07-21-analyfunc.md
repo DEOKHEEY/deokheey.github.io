@@ -5,11 +5,11 @@ date: "2018-07-21"
 excerpt: "OLAP 기능에 적합한 함수"
 toc: true
 tag:
-  sql, analyticfunction
+  [sql, analyticfunction]
 output: github_document
 comments: true
 categories:
-  sql
+  SQL
 ---
 
 ## 분석함수(Analytic Function)

@@ -1,0 +1,270 @@
+---
+layout: post
+title: "[Python] 파이썬의 기초"
+date: "2018-09-01"
+excerpt: "파이썬을 간단히 다루어보자"
+output: github_document
+tag: python
+comments: true
+categories:
+  Python
+---
+
+
+### 사칙연산
+
+```{r, engine='python'}
+print(1 + 2)
+print(1 - 1)
+print(2 * 3)
+print(7 / 2) # 부동소수점 나누기
+print(7 // 2) # 나눗셈의 몫(정수나누기, 소수점이하는 버림)
+print(7 % 2) # 나눗셈의 나머지
+print(2 ** 3) # 제곱연산
+```
+
+제곱연산의 경우 `math` 라이브러리의 `pow`함수를 사용하여 구할 수 있다.
+
+```{r, engine='python'}
+import math
+math.pow(2,3)
+```
+
+***
+
+### 연산자 우선 순위
+
+```
+1. (): 괄호
+2. **: 제곱
+3. * /: 곱, 나눗셈
+4. + -: 덧셈, 곱셈
+```
+***
+
+### 변수(Variable)
+- 데이터를 저장할 수 있는 메모리 공간
+- 첫글자는 영문, _(밑줄)
+- 두번째 글자부터는 영문자, 숫자, _ 가능
+- 대소문자 구분한다.
+- 예약어는 사용할 수 없다.
+
+<br>
+
+저장된 변수는 다음 메소드로 확인할 수 있다.
+
+```
+import keyword
+keyword.kwlist # 예약어 목록
+```
+
+<br>
+
+***
+
+### 연산자 축약 사용
+
+연산 수행과  변수 할당을 동시에 할 수 있다.
+
+```{r, engine='python'}
+x = 10
+print(type(x)) # 변수 구조 확인
+
+# 덧셈 연산 축약
+a = 1
+a = a + 1 #아래와 같이 축약해서 사용 가능
+a += 1
+print(a)
+
+# 나눗셈 연산 축약
+a /= 2
+print(a)
+```
+
+소수점과 지수는 다음과 같이 표현한다.
+
+```{r, engine='python'}
+f = 10.12 # 부동소숫점 (float)
+print(type(f))
+
+
+f = 10.4e3 # 지수 표현(= 10.4 * 10 ** 3)
+print(type(f))
+```
+
+<br>
+
+***
+
+### 논리연산자
+
+파이썬에서 `==`,`!=`,`>`,`<=` 등을 `and`, `or`, `not`과 함께 사용할 수 있다.
+
+```{r, engine='python'}
+x = 1
+y = 2
+print(y > x)
+print(x == y)
+
+print(x > y and y > x)
+print(x > y or y > x)
+print(not x > y)
+```
+
+<br>
+
+***
+
+### 변수 확인
+
+선언된 변수는 `dir()`와 `locals()`로 확인할 수 있다.
+
+<br>
+
+***
+
+### 변수 삭제
+
+`del`을 사용하여 삭제를 한다.
+
+```{r, engine='python'}
+x = [1,2,3]
+del(x)
+```
+
+<br>
+
+***
+
+### 문자열 표현
+
+문자열은 `' '`와 `" "`을 사용한다.
+
+```{r, engine='python'}
+print('python')
+print("python")
+```
+
+<br>
+
+***
+
+### escape 식별자
+
+줄바꿈, tab key는 `\n`과 `\t`로 표현한다.
+
+```{r, engine='python'}
+# \n : 줄바꿈
+print("오늘 하루도 \n 행복하자")
+
+# \t : tab key
+print("오늘 하루도 \t 행복하자")
+
+# \0 : null
+print("잘하자 \0 파이썬")
+
+# \\ : \ 표시
+print("잘하자 \\ 파이썬")
+```
+
+<br>
+
+***
+
+### 연결연산자
+
+두 문자를 연결 하고 싶을 시 `+` 부호를 사용하여 연결한다.
+```{r, engine='python'}
+x = "Py"
+y = "thon"
+print(type(x))
+
+z = x+y
+print(z)
+
+print(z*5) # 문자열을 곱하면 반복한다.
+```
+
+<br>
+
+***
+
+### formating: 형식을 만들어 놓고 출력
+
+formating으로 문장을 구성할 수 있다. formating code는 다음과 같다.
+
+```
+%s: 문자열
+%d: 정수
+%f: 실수
+```
+
+예시를 살펴보자.
+
+```{r, engine='python'}
+name = "James"
+job = "Data Scientist"
+
+print("Hello. My name is {}. I'm a {}.".format(name,job))
+print("Hello. My name is %s. I'm a %s."%(name,job)) # 포멧팅 코드 사용(%s 문자열)
+```
+
+```{r, engine='python'}
+x = 996
+y = 8
+result1 = x // y
+result2 = x % y 
+
+print("{}를 {}로 나누면 {}가 몫이고 {}는 나머지 입니다.".format(x,y,result1,result2))
+print('%d를 %d로 나누면 %d는 몫이고 %d는 나머지 입니다.'%(x,y,result1,result2)) # 포켓팅 코드 사용 (%d 정수)
+```
+
+```{r, engine='python'}
+print("원주율은 %d입니다."%(3.14159)) # 정수형이라 3만 표현됌
+print("원주율은 %f입니다."%(3.14159)) # 포멧팅 코드 사용 (%f 실수)
+print("원주율은 %0.4f입니다."%(3.14159)) # 소수점 4자리 까지 표현
+```
+
+<br>
+
+#### divmod(): 몫과 나머지를 한번에 표현
+
+`divmod()`은 몫과 나머지를 한번에 표현해 준다.
+
+```{r, engine='python'}
+x = 996
+y = 8
+result1, result2 = divmod(x,y)
+
+print('%d를 %d로 나누면 %d는 몫이고 %d는 나머지 입니다.'%(x,y,result1,result2))
+```
+
+<br>
+
+***
+
+<br>
+
+### 문자의 index와 splicing
+
+```{r, engine='python'}
+x = '행복한 하루를 보내자'
+x = [1,2,3,4]
+len(x)
+x[1:2]
+
+# 인덱싱 & 슬라이싱
+x[0] # python은 0번부터 시작
+x[1] # 2번째 글자 추출
+x[-1] # 뒤에서 첫번째 글자 출력
+x[0:2] # 앞에서부터 2글자 출력
+x[:] # 전부 출력
+x[:3]
+x[3:]
+x[4:-5]
+x[::2] # 건너뛰어서 출력
+x[1:7:2]
+x[5::2]
+x[::-1] # 뒤에서부터 출력
+```
+

@@ -1,6 +1,15 @@
 ---
-title: "Data type"
-output: html_document
+layout: post
+title: "[R] Data type"
+date: "2018-08-01"
+excerpt: "자료형데이터의 종류"
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+comments: true
+categories: R
+tag: [R, datatype]
 ---
 
 ## 벡터(Vector)

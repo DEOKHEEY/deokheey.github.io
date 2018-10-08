@@ -1,0 +1,231 @@
+---
+layout: post
+title: "[R] sqldf"
+date: "2018-07-01"
+excerpt: "R에서도 SQL를 사용할 수 있다."
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+comments: true
+categories: R
+tag: [R, sqldf]
+---
+
+## sqldf()
+
+`sqldf()` 패키지는 R에서 sql을 사용해서 데이터를 처리한다.
+
+```{r eval=FALSE}
+# sqldf 설치
+install.packages("sqldf")
+```
+
+다음과 같이 `sqldf()` 안에 쿼리문을 넣어서 사용한다.
+
+```{r}
+library(sqldf)
+emp <- read.csv("C:/data/emp.csv",stringsAsFactors = F)
+dept <- read.csv("C:/data/dept.csv",stringsAsFactors = F)
+
+sqldf("SELECT job_id FROM emp")
+sqldf("SELECT DISTINCT job_id FROM emp")
+```
+
+`mySQL` 기반으로 만들어져서 oracle의 sql과 다른 부분이 있다. 사용할 때 [mySQL document](https://dev.mysql.com/doc/)를 참고하자. 그리고 아래 예제를 보고 Oracle과 mySQL과 다른 점과 `sqldf()`에서 사용할 수 있는 함수와 사용할 수 없는 함수 등 예외사항들을 익혀보자.
+
+<br>
+
+### Sort
+
+```{r}
+sqldf("SELECT last_name as name, salary as sal 
+       FROM emp 
+       ORDER BY salary desc limit 10")
+```
+
+
+<br>
+
+### grouping
+
+```{r}
+sqldf("SELECT department_id, count(*), sum(salary), avg(salary)
+       FROM emp
+       GROUP BY department_id
+       HAVING sum(salary) >= 20000
+       limit 5") #5개만 출력
+```
+
+
+<br>
+
+### 문자함수 
+
+`initcap()`은 사용 할 수 없지만 `leftstr()`, `rightstr()`, `reverse()`를 사용할 수 있다.
+
+```{r}
+## initcap() 불가
+## leftstr() 등 가능
+sqldf("SELECT last_name, upper(last_name), lower(last_name),
+              substr(last_name,1,2), length(last_name), 
+              leftstr(last_name,2), rightstr(last_name,2), reverse(last_name)
+       FROM emp
+       limit 5")
+```
+
+<br>
+
+### 숫자함수
+
+```{r}
+## trunc 사용 불가능
+sqldf("SELECT salary/3, round(salary/3,0)
+       FROM emp
+       limit 5")
+```
+
+
+<br>
+
+### null
+
+`nvl()`, `nvl2()` 등 함수 사용 불가하지만 `COALESCE()` 함수는 사용 가
+
+```{r}
+sqldf("SELECT * 
+       FROM emp
+       WHERE department_id is null")
+
+sqldf("SELECT * 
+       FROM emp
+       WHERE department_id is not null
+       limit 5")
+```
+
+<br>
+
+
+### in 연산자
+
+```{r}
+sqldf("SELECT * 
+       FROM emp
+       WHERE department_id in (10,20)")
+```
+
+<br>
+
+### between and 연산자
+
+```{r}
+sqldf("SELECT *
+       FROM emp
+       WHERE salary between 10000 and 20000
+       limit 5")
+```
+
+<br>
+
+### join
+
+```{r}
+sqldf("SELECT e.employee_id, d.department_name 
+      FROM emp e, dept d 
+      WHERE e.department_id = d.department_id 
+      limit 5")
+
+# join-on (ANSI)
+sqldf("SELECT e.employee_id, d.department_name 
+      FROM emp e join dept d 
+      ON e.department_id = d.department_id 
+      limit 5") 
+
+# Join-using
+sqldf("SELECT e.employee_id, d.department_name 
+      FROM emp e join dept d 
+      USING(department_id) 
+      limit 5")
+
+```
+
+<br>
+
+#### left outer join
+
+right/full outer join은 지원하지 않지만 다음과 같이 테이블의 순서를 바꾸거나 `UNION`을 사용하여 이를 구현할 수 있다.
+
+```{r}
+## right outer join은 left outer join에서 순서만 바꾸자
+sqldf("SELECT e.employee_id, d.department_name 
+      FROM emp e left outer join dept d 
+      ON e.department_id = d.department_id 
+      limit 5")
+
+## full outer join은 UNION으로 사용
+sqldf("SELECT e.employee_id, d.department_name 
+      FROM emp e left outer join dept d 
+      ON e.department_id = d.department_id 
+      UNION
+      SELECT e.employee_id, d.department_name 
+      FROM dept d left outer join emp e 
+      ON e.department_id = d.department_id
+      limit 10")
+
+
+### UNION, UNIONALL, INTERSECT는 사용할 수 있으나 MINUS는 EXCEPT로 사용
+sqldf("SELECT e.employee_id, d.department_name 
+      FROM emp e left outer join dept d 
+      ON e.department_id = d.department_id 
+      EXCEPT
+      SELECT e.employee_id, d.department_name 
+      FROM dept d left outer join emp e 
+      ON e.department_id = d.department_id
+      limit 10")
+```
+
+<br>
+
+### subquery
+
+```{r}
+sqldf("SELECT last_name, salary, job_id
+      FROM emp
+      WHERE salary >= (
+        SELECT max(salary)
+        FROM emp
+        WHERE job_id = 'SA_REP')")
+
+sqldf("SELECT last_name, hire_date+100, job_id
+      FROM emp
+      WHERE salary >= (
+      SELECT max(salary)
+      FROM emp
+      WHERE job_id = 'SA_REP')")
+```
+
+<br>
+
+### dummy table
+
+```{r}
+sqldf("SELECT 1+1")
+```
+
+<br>
+
+### 형변환(cast)
+
+```{r}
+emp <- read.csv('C:/data/emp.csv',stringsAsFactors = F)
+emp$HIRE_DATE <- as.Date(as.character(emp$HIRE_DATE), format = '%Y%m%d')
+
+sqldf("select * from emp where hire_date > cast('2005-01-01' as DATETIME)")
+```
+
+<br>
+
+***
+
+이 외에도 다른 점이 많으니 [mySQL document](https://dev.mysql.com/doc/)를 참고해서 사용하자.
+

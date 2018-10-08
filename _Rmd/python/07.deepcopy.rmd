@@ -1,0 +1,66 @@
+---
+layout: post
+title: "[Python] deepcopy"
+date: "2018-09-01"
+excerpt: "데이터를 제대로 복제하자"
+output: github_document
+tag:
+    [python, deepcopy]
+comments: true
+categories:
+  Python
+---
+
+
+## copy
+
+파이썬에서 단순 복제는 동일한 객체 취급을 한다. 그래서 복사된 변수를 조작하면 원본 변수에도 영향을 미친다. 아래 코드를 보고 단순 복제의 문제점을 알아보자.
+
+```{r, engine='python'}
+a = [1,2,3]
+b = a
+print(a)
+print(b)
+print(id(a),id(b)) # memory 주소값
+
+a.append(4)
+print(a)
+print(b)
+```
+
+즉, `b = a`로 카피를 하게 되면 메모리는 동일한 곳을 쳐다보게 된다. 그러므로 b는 copy됐다기 보다 a와 같은 변수라고 볼 수 있다.
+
+***
+
+## deep copy
+
+ 서로 영향을 주지 않기 위해서는 물리적인 주소를 다르게 하여 내용을 복사해야 한다. 복제를 하되 물리적인 주소까지 다르게 복제하려면 다음과 같이 한다.
+ 
+```{r, engine='python'}
+c = a[:]
+print(id(a),id(c)) # 주소값이 다르다
+a.append(5)
+print(a)
+print(c)
+```
+
+`a`와 `c`는 서로 다른 주소값을 가지고 있다. 처음에 본  문제와 다르게 `a`를 조작했을 때 `c`에 영향을 주지 않는다,
+
+***
+
+## copy 모듈
+
+python의 모듈 중 `copy`은 deepcopy를 할 수 있게 하는 메소드를 제공한다. 이는 바로 전 문제에서 리스트를 복사할 때 `[:]`을 사용하여 복사하는 것과 같은 형태로 복사된다.
+
+```{r, engine='python'}
+# import copy
+import copy
+
+d = copy.deepcopy(a)
+
+print(id(a),id(d))
+
+a.append(6)
+print(a)
+print(d) # 영향을 주지 않음
+```

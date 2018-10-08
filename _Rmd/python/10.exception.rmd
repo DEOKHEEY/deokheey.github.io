@@ -1,0 +1,133 @@
+---
+layout: post
+title: "[Python] Exception"
+date: "2018-09-01"
+excerpt: "파이썬에서 예외처리를 해보자"
+output: github_document
+tag:
+    [python, exception]
+comments: true
+categories:
+  Python
+---
+
+## 예외사항 처리
+
+실행중 발생한 오류에 대해서 처리할 수 있는 방법이다. 기본적으로 `try`절과 `except`절로 만들 수 있다. `try`절에 로직을 기입하고 예외사항에 대해서는 `except`절에 구성하면 된다.
+
+```{python}
+def divide(x,y):
+    return x/y
+    
+try:
+    z = divide(10,5)
+    print(z)
+    
+except:
+    print("오류가 발생했습니다.")
+
+```
+
+다음과 같이 오류가 발생했을 때는 `except`절로 빠지게 된다.
+
+```{python}
+def divide(x,y):
+    return x/y
+    
+try:
+    z = divide(10,0)
+    print(z)
+    
+except:
+    print("오류가 발생했습니다.")
+
+```
+
+***
+
+### 여러 상황에 대한 오류처리
+
+상세 오류에 대해서(여기서는 나눗셈 함수에 대해서) 각각의 상황에 맞는 예외처리를 할 수 있다. 
+
+```{python}
+def divide(x,y):
+    return x/y
+  
+try:
+    z = divide(10,0)
+    print(z)
+    
+    z = divide(10,'일')
+    print(z)
+    
+    
+except TypeError:
+    print("인수값을 숫자로 입력하세요")
+
+except ZeroDivisionError:
+    print("0값으로 나눌 수 없습니다.")
+    
+except: 
+    print("오류가 발생했습니다.")
+
+else: # except절이 끝나면 출력
+    print("결과 : {}".format(z))
+
+finally: # 오류 발생여부와 상관없이 반드시 출력
+    print("프로그램 종료")
+```
+
+#### else절과 finally절
+
+`else`절은 `except`절이 끝나면 바로 출력해주고 `finally`절은 오류 발생여부와 상관없이 프로그램 종료 시 출력해준다.
+
+***
+
+### 유저가 예외사항 만들기
+
+유저가 직접 예외사항을 만들어 `except`절로 이끌 수 있다.
+
+```{python}
+def func(arg):
+    try:
+        if arg < 1 or arg > 10:
+            raise Exception("유효하지 않은 숫자입니다.:{}".format(arg))
+        else:
+            print("입력한 수는 {} 입니다.".format(arg))
+    except Exception as error:
+        print("오류가 발생했습니다.{}".format(error))
+
+
+func(10)
+```
+
+여기서 `as error`는 오류 메시지를 출력할 수 있게 한다. `SQL`에서 `sqlerrm`과 같은 의미이다. 좀 더 자세한 내용은 아래를 참고하자.
+
+***
+
+### 오류 메시지와 함께 출력(as ~)
+
+```{python}
+lst = [1,2,3]
+
+try:
+    print(lst[3])
+
+except:
+    print("오류가 발생했습니다")
+```
+
+리스트변수 `lst`는 index 번호가 2번까지 배정되어 있어서 오류가 난다. 하지만 어떤 오류가 발생했는지 출력하지 못한다.
+
+```{python}
+lst = [1,2,3]
+
+try:
+    print(lst[3])
+
+except Exception as error: # 오라클에서의 sqlerrm과 같은 의미
+    print(error)
+    print("오류가 발생했습니다")
+```
+
+위와 같이 `as error`를 사용하여 어떤 오류가 발생한지까지 출력할 수 있다.

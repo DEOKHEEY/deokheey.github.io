@@ -1,0 +1,52 @@
+---
+layout: post
+title: "[R] Subset"
+date: "2018-07-01"
+excerpt: "원하는 열을 출력하는 방법"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+comments: true
+categories: R
+tag: [R, subset]
+---
+
+## subset()
+
+조건에 만족하는 데이터를 선택
+
+```{r}
+emp<-read.csv("C:/data/emp.csv",stringsAsFactors = F)
+
+# Row 추출
+emp[emp$DEPARTMENT_ID == 20,]
+
+subset(emp,DEPARTMENT_ID == 20)
+
+
+# Column 추출
+emp[,c("LAST_NAME","SALARY","DEPARTMENT_ID")]
+
+subset(emp,select = c(LAST_NAME,SALARY,DEPARTMENT_ID)) # Double quation mark 사용하지 않음
+```
+
+### 특정 컬럼 제외 후 추출
+
+특정 Column을 제외하고 추출하고 싶은 경우에는 `names()`로 컬럼을 추출하고 `!`를 써서 제외시킨다.
+
+```{r}
+emp[,names(emp) %in% c("LAST_NAME","SALARY","DEPARTMENT_ID")]
+emp[,!names(emp) %in% c("LAST_NAME","SALARY","DEPARTMENT_ID")]
+```
+
+subset()의 경우에는 column vector 앞에 `-`를 사용하여 제외시킨다.
+
+```{r}
+
+subset(emp,select = -c(LAST_NAME,SALARY,DEPARTMENT_ID)) 
+
+
+# 조건에 맞는 데이터 추출
+subset(emp, SALARY >= 10000, select = -c(LAST_NAME,SALARY,DEPARTMENT_ID)) 
+```

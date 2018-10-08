@@ -1,0 +1,179 @@
+---
+layout: post
+title: "[Python] list형의 함수"
+date: "2018-09-01"
+excerpt: "파이썬의 리스트형 다루기"
+output: github_document
+tag:
+    [python, slicing, list, function]
+comments: true
+categories:
+  Python
+---
+
+## 리스트형
+
+### list형
+
+- 서로 다른 데이터 타입을 갖는 1차원 배열
+- 데이터의 목록을 다루는 자료형
+- `[]`로 표현한다.
+
+```{r, engine='python'}
+x = [10,20,30]
+type(x)
+```
+
+<br>
+
+### 리스트 인덱싱
+
+Python의 인덱스는 0부터 시작한다.
+
+```{r, engine='python'}
+x = [1,2,3,4,5]
+print(x[0])
+print(x[1])
+print(x[-1])
+```
+
+<br>
+
+### 리스트 슬라이싱
+
+리스트에서 특정 값을 추출하기 위해서는 `[시작:끝-1]`로 표현한다.
+
+```{r, engine='python'}
+x = [1,2,3,4,5]
+print(x[0:2])
+print(x[1:])
+print(x[:-1])
+print(x[-1:])
+```
+
+<br>
+
+### 리스트 값 수정
+
+```{r, engine='python'}
+x = [1,2,3]
+x[0] = 100
+print(x)
+
+x[1:3] = [200,300]
+print(x)
+```
+
+<br>
+
+### append(): 리스트 끝에 값 추가
+
+```{r, engine='python'}
+x = [1,2,3]
+x.append(4)
+print(x)
+```
+
+<br>
+
+### extend(), '+': 리스트끼리 이어 붙이기
+
+```{r, engine='python'}
+x = [1,2]
+y = [3,4]
+x.extend(y)
+
+print("x :",x,"\ny :",y)
+```
+
+
+혹은 `+` 기호를 사용해서 붙일 수 있다.
+
+```{r, engine='python'}
+x = [1,2]
+y = [3,4]
+
+x = x+y
+print("x :",x,"\ny :",y)
+```
+
+<br>
+
+### insert(): 특정 위치에 값 삽입
+
+인덱스를 사용하여 특정 위치에 값을 입력할 수 있다.
+
+```{r, engine='python'}
+x = [10,30]
+x.insert(1,20)
+
+print(x)
+```
+
+<br>
+
+### count(): 리스트안의 해당 값을 갯수 출력
+
+```{r, engine='python'}
+x = ['a','b','a','a','b','c']
+print(x.count('a'))
+print(x.count('b'))
+
+```
+
+<br>
+
+### pop(): 리스트의 값 삭제
+
+인덱스 번호를 넣으면 그 인덱스를 가진 값을 삭제 할 수 있다.
+
+```{r, engine='python'}
+x = [1,2,3,4]
+print(x)
+
+x.pop() # 끝 값 제거
+print(x)
+
+x.pop(0) # 0번 인덱스 값 제거
+print(x)
+```
+
+<br>
+
+### del: 변수 삭제
+
+`del`은 `pop()`과 다르게 리스트 전체를 삭제 할 수 있고 혹은 인덱스값을 사용하여 특정 값을 지울 수 있다.
+
+```{r, engine='python'}
+x = [1,2,3,4]
+del x[1] # 1번 인덱스 삭제
+print(x)
+
+del x # x 변수 자체를 삭제
+```
+
+<br>
+
+### remove(): 리스트변수의 값을 기준으로 삭제
+
+```{r, engine='python'}
+x = ['a','a','b','c','d']
+x.remove('a')
+print(x) #모든 'a'를 지우는 것이 아닌 첫번째 'a'만 삭제
+```
+
+만약 모든 `a`를 지우겠다고 하면 `.count`를 이용하여 건 수를 찾고, 그 수 만큼 loop 를 돌려야 한다.
+
+<br>
+
+### index(): 리스트의 인덱스 번호를 찾아주는 함수
+
+문자열의 `find()`함수와 주의하자. 리스트 변수에 `find()`을 사용하면 오류가 발생한다.
+
+```{r, engine='python'}
+x = ['a','b','a','a','c','b']
+
+print(x.index('a'))
+print(x.index('b',1)) # 1번 요소부터 검색
+print(x.index('b',2)) # 2번 요소부터 검색
+```

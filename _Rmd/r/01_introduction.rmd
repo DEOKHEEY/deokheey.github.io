@@ -1,6 +1,15 @@
 ---
-title: "Introduction"
-output: html_document
+layout: post
+title: "[R] Introduction"
+date: "2018-08-01"
+excerpt: "R? 그게 뭐야?"
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+comments: true
+categories: R
+tag: R
 ---
 
 # R
@@ -22,8 +31,8 @@ output: html_document
 
 ## R 설치
 
-https://www.r-project.org/
-https://www.rstudio.com/
+[R-project](https://www.r-project.org/)
+[Rstudio](https://www.rstudio.com/)
 
 ***
 

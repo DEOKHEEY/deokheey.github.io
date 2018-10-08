@@ -1,9 +1,18 @@
 ---
-title: "Group Function"
-output: html_document
+layout: post
+title: "[R] Group Function"
+date: "2018-08-01"
+excerpt: "R에서의 그룹함수"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+comments: true
+categories: R
+tag: [R, groupfunction]
 ---
 
-## 그룹함수
+## 기본 그룹함수
 
 ```{r echo=TRUE}
 x <- c(100,90,80,70)
